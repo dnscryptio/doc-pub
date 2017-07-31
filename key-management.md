@@ -11,7 +11,7 @@ the provider key pair to generate pairs of *service key* and a
 *service certificate*, per service instance, with limited duration,
 (Step 2 and Step 3). The instance key and certificate is pushed to a
 *key storage*, (Step 4), and the service instances access service keys
-in the key storage, (Step 5).  This allows the key-holder to be
+in the key storage, (Step 5). This allows the key holder to be
 isolated, and separates provider key pair storage from service
 key/certificate access control. In further details the process for
 managing keys is as follows:
