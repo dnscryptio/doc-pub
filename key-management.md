@@ -1,7 +1,7 @@
 # Key Management #
 
 This document describes the overall architecture and the details of
-how we manage keys used for the dnscrypt.io DNSCrypt service.
+how we manage keys used for the dnscrypt.io service.
 
 ## Outline ##
 
@@ -16,7 +16,7 @@ isolated, and separates provider key pair storage from service
 key/certificate access control. In further details the process for
 managing keys is as follows:
 
- 1. Generate provider keypair.
+ 1. Generate provider key pair.
 
         dnscrypt-wrapper --generate-provider-keypair ...
         # Input: None (Randomness from host)
@@ -25,7 +25,7 @@ managing keys is as follows:
 
     These keys are the cryptographic identity of the service. It is
     **important** to keep `secret.key` secret, as it can be used to
-    generate service keys, and impose as part of DNSCrypt.io.
+    generate service keys, and impose as part of dnscrypt.io.
 
  2. Generate service key.
 
@@ -36,7 +36,7 @@ managing keys is as follows:
 
     This key is "half" of the identity used by a `dnscrypt-wrapper`
     service instance for encryption. It is **important** to keep it
-    secret, as it can be used to impose as the DNSCrypt service
+    secret, as it can be used to impose as the dnscrypt service
     instance, or to decrypt communication with instance and
     clients. `<SERIAL>` is a unique, strictly increasing serial for a
     service key/service certificate pair.
@@ -63,7 +63,7 @@ managing keys is as follows:
         dnscrypt-wrapper ...
         # Input: <SERIAL>.key
         # Input: <SERIAL>.cert
-        # Output: None (Service hosted)
+        # Output: None (Service is started)
 
 
 ## Implementation ##
@@ -72,6 +72,17 @@ managing keys is as follows:
 
 ### Key storage ###
 
-### Miscelanous ###
+Service key and certificates are stored in an AWS s3 bucket, with a
+folder for each instance, like the following:
 
-`<SERIAL>` is `YYYYMMddhhmmss`
+    <BUCKET>/<INSTANCE>/<SERIAL>.key
+    <BUCKET>/<INSTANCE>/<SERIAL>.cert
+
+Key holder has an *AWS access key* granting full access to the
+bucket. Each service instance has an AWS access key granting only read
+access to the relevant instance folder, i.e. `<BUCKET>/<INSTANCE>/`.
+
+### Miscellaneous ###
+
+ * `<SERIAL>` is `YYYYMMddhhmmss`
+ * `<INSTANCE>` is ???
