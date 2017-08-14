@@ -70,6 +70,8 @@ managing keys is as follows:
 
 ### Key holder ###
 
+The key holder is based on Raspberry Pi hardware that runs timed jobs to generate and push service keys to key storage.
+
 ### Key storage ###
 
 Service key and certificates are stored in an AWS s3 bucket, with a
@@ -85,4 +87,4 @@ access to the relevant instance folder, i.e. `<BUCKET>/<INSTANCE>/`.
 ### Miscellaneous ###
 
  * `<SERIAL>` is `YYYYMMddhhmmss`
- * `<INSTANCE>` is ???
+ * `<INSTANCE>` is the fully qualified domain name of the DNS service, e.g. "ns1.de.dnscrypt.io". See documentation on naming scheme for current details.
